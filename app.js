@@ -61,7 +61,8 @@ function answerFor(question) {
   const normalized = question.trim();
   if (!normalized || normalized.length > 300) return refusal;
   const unsafeOrPrivate = /ignore (all |any )?(previous|prior|your)|system prompt|reveal.*prompt|home address|phone number|email address|salary|relocat|how old|date of birth|confirm.*(10|ten) years/i;
-  if (unsafeOrPrivate.test(normalized)) return refusal;
+  const unsupportedDetails = /\b(project|case study|outcome|impact|leadership|led|managed|team size)\b/i;
+  if (unsafeOrPrivate.test(normalized) || unsupportedDetails.test(normalized)) return refusal;
   const answer = verifiedAnswers.find((item) => item.match.test(normalized));
   return answer || null;
 }
